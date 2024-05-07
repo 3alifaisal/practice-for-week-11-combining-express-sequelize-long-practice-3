@@ -9,12 +9,31 @@ const { Supply } = require('../db/models');
 router.get('/category/:categoryName', async (req, res, next) => {
     // Phase 1C:
         // Find all supplies by category name
-        // Order results by supply's name then handed
+       
+        const category= req.params.categoryName
+        const supplies = await Supply.findAll({
+            where: {
+                category,
+            },
+             // Order results by supply's name then handed
+            order: [['name'],['handed']]
+        })
+        if(!supplies.length) {
+            let err = {
+                name: `not found`,
+                status: 404,
+                message: `supplies with specified category ${category} don't exist`,
+             
+            }
+            next(err)
+        }
+            res.json(supplies)
         // Return the found supplies as the response body
     // Phase 8A:
         // Include Classroom in the supplies query results
         // Order nested classroom results by name first then by supply name
     // Your code here
+
 });
 
 

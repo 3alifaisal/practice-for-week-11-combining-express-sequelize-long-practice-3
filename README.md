@@ -24,9 +24,9 @@ application.)
 
 A small amount of progress has been made so far
 
-* Sequelize models and migrations are in place for the database
-* Seeders were created for seed data to use during the development phase
-* Express application runs with basic routes for CRUD operations
+- Sequelize models and migrations are in place for the database
+- Seeders were created for seed data to use during the development phase
+- Express application runs with basic routes for CRUD operations
 
 Review this diagram to understand the database structure.
 
@@ -34,17 +34,17 @@ Review this diagram to understand the database structure.
 
 ## Getting started
 
-Download the starter. `cd` into __server__ folder, and install dependencies
+Download the starter. `cd` into **server** folder, and install dependencies
 using `npm install`.
 
-Create a __server/.env__ file in order to store environment variables. Add a
-variable `DB_FILE` (which is already in use in __server/config/database.js__).
-You can model the __.env__ file after __.env.example__, specifying the location
+Create a **server/.env** file in order to store environment variables. Add a
+variable `DB_FILE` (which is already in use in **server/config/database.js**).
+You can model the **.env** file after **.env.example**, specifying the location
 of the database to be created.
 
-Notice that the starter includes __server/.sequelizerc__ and
-__server/config/database.js__, as well as __migrations__, __models__, and
-__seeders__ in the __server/db__ folder.
+Notice that the starter includes **server/.sequelizerc** and
+**server/config/database.js**, as well as **migrations**, **models**, and
+**seeders** in the **server/db** folder.
 
 ### Migrations and seeders
 
@@ -54,8 +54,8 @@ database and the table(s) specified in the existing migrations.
 > Remember: You'll need `dotenv` before `npx` in order to set the
 > environment variable for the database file location.
 
-Verify that the __db/dev.db__ file was created. If you encounter any errors or
-do not see this file, go back and check that your __.env__ file has been
+Verify that the **db/dev.db** file was created. If you encounter any errors or
+do not see this file, go back and check that your **.env** file has been
 accurately set up.
 
 Verify the tables exist by checking its `schema` using the **SQLite3 CLI**.
@@ -78,7 +78,7 @@ In your browser, load the root path:
 If all is working correctly, you should see
 `{"message":"API server is running"}`.
 
-In your browser, add __counts__ to the path:
+In your browser, add **counts** to the path:
 [http://localhost:8000/counts][localhost-counts]
 
 This is a special API to verify how many records are in the database.
@@ -103,30 +103,30 @@ If you get stuck, try moving on to the next phase for now, then come back later
 in the project to complete or improve your code. Also, you can formulate good
 questions, and reach out to your instructors for help.
 
-* Basic Phase 1: Order Query Results
-  * `GET /students`
-  * `GET /classrooms`
-  * `GET /supplies/category/:categoryName`
-* Basic Phase 2: Pagination
-  * `GET /students`
-* Basic Phase 3: Aggregation with Pagination
-  * `GET /students`
-* Basic Phase 4: Search Filters
-  * `GET /students`
-* Basic Phase 5: Aggregation
-  * `GET /classrooms/:id`
-* Intermediate Phase 6: Search Filters
-  * `GET /classrooms`
-* Intermediate Phase 7: Order Query Results by Association
-  * `GET /classrooms/:id`
-* Advanced Phase 8: Order Query Results by Association
-  * `GET /supplies/category/:categoryName`
-  * `GET /students`
-* Advanced Phase 9: Aggregation
-  * `GET /classrooms`
-* Advanced Phase 10: To Aggregate or Not to Aggregate
-  * `GET /supplies/scissors/calculate`
-* Advanced Phase 11: Pagination Middleware
+- Basic Phase 1: Order Query Results
+  - `GET /students`
+  - `GET /classrooms`
+  - `GET /supplies/category/:categoryName`
+- Basic Phase 2: Pagination
+  - `GET /students`
+- Basic Phase 3: Aggregation with Pagination
+  - `GET /students`
+- Basic Phase 4: Search Filters
+  - `GET /students`
+- Basic Phase 5: Aggregation
+  - `GET /classrooms/:id`
+- Intermediate Phase 6: Search Filters
+  - `GET /classrooms`
+- Intermediate Phase 7: Order Query Results by Association
+  - `GET /classrooms/:id`
+- Advanced Phase 8: Order Query Results by Association
+  - `GET /supplies/category/:categoryName`
+  - `GET /students`
+- Advanced Phase 9: Aggregation
+  - `GET /classrooms`
+- Advanced Phase 10: To Aggregate or Not to Aggregate
+  - `GET /supplies/scissors/calculate`
+- Advanced Phase 11: Pagination Middleware
 
 ## References
 
@@ -138,10 +138,7 @@ Good luck! You can do it!!!
 
 [Student-Classroom-Supply-db-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-11/practices/Student-Classroom-Supply-db-schema.png
 [Student-Classroom-Supply-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-11/practices/Student-Classroom-Supply-db-diagram-info.txt
-
 [localhost]: http://localhost:8000/
 [localhost-counts]: http://localhost:8000/counts
-
 [docs]: https://sequelize.org/master/manual/getting-started.html#new-databases-versus-existing-databases
-
 [cli-docs]: https://github.com/sequelize/cli

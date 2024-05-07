@@ -37,7 +37,7 @@ the `count` property should equal `34`.
 
 ## Phase 4B: Last Name likeness
 
-Filter the students in the query results by the optional `lastName` query
+`Filter the students in the query results by the optional`lastName` query
 parameter.
 
 Configure the `where` object to filter the results according to the following
@@ -75,18 +75,18 @@ route handler's query.
 The `lefty` query parameter should be a string of either `"true"` or `"false"`.
 
 - If the `lefty` query parameter is `"true"`, then only the students that are
-left-handed should be returned from the query results.
+  left-handed should be returned from the query results.
 
 - If the `lefty` query parameter is `"false"`, then only the students that are
-right-handed should be returned from the query results.
+  right-handed should be returned from the query results.
 
 - If the `lefty` query parameter is any other string but `"true"` or `"false"`,
-then an error message of `"Lefty should be either true or false"` should be
-added to `errorResult.errors` array. (See Phase 1 for a refresher on what the
-`errorResult` object is used for.)
+  then an error message of `"Lefty should be either true or false"` should be
+  added to `errorResult.errors` array. (See Phase 1 for a refresher on what the
+  `errorResult` object is used for.)
 
 - If there is no `lefty` query parameter specified, return students with
-any handedness (left or right).
+  any handedness (left or right).
 
 ### Result
 
