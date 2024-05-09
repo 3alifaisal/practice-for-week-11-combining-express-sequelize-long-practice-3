@@ -22,12 +22,7 @@ function paginate(req, res, next) {
   let page = req.query.page ? parseInt(req.query.page) : 1;
   let size = req.query.size ? parseInt(req.query.size) : 10;
 
-  if (
-    !Number.isInteger(page) ||
-    !Number.isInteger(size) ||
-    page < 0 ||
-    size < 0
-  ) {
+  if (!parseInt(page) || !parseInt(size) || page < 0 || size < 0) {
     const err = {
       name: "Invalid Pagination Parameters",
       status: 400,
@@ -73,12 +68,52 @@ function paginate(req, res, next) {
 
 function searchQuery(req, res, next) {
   let where = {};
-  const { firstName, lastName, lefty, name } = req.query;
+  const { firstName, lastName, lefty, name, studentLimit } = req.query;
+
   if (firstName) where.firstName = { [Op.like]: `%${firstName}%` };
+
   if (lastName) where.lastName = { [Op.like]: `%${lastName}%` };
+
   if (lefty === "true" || lefty === "false")
     where.lefthanded = lefty === "true";
+
   if (name) where.name = { [Op.like]: `%${name}` };
+
+  if (studentLimit) {
+    const studentLimitSplitted = studentLimit.split(",");
+    const err = {
+      name: `Invalid StudentLimit parameters`,
+      status: 400,
+      message: `studentLimit should be an integer`,
+    };
+
+    if (studentLimitSplitted.length === 2) {
+      if (
+        !parseInt(studentLimitSplitted[0]) ||
+        !parseInt(studentLimitSplitted[1])
+      ) {
+        next(err);
+        return;
+      }
+      if (
+        parseInt(studentLimitSplitted[1]) < parseInt(studentLimitSplitted[0])
+      ) {
+        err.message = `the first Studentlimit paramet should be smaller than the second`;
+        next(err);
+        return;
+      }
+      where.studentLimit = {
+        [Op.gt]: parseInt(studentLimitSplitted[0]),
+        [Op.lt]: parseInt(studentLimitSplitted[1]),
+      };
+    } else if (studentLimitSplitted.length === 1) {
+      if (!parseInt(studentLimit)) {
+        next(err);
+        return;
+      }
+      where.studentLimit = parseInt(studentLimit);
+    }
+  }
 
   req.where = where;
   next();

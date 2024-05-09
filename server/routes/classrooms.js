@@ -3,13 +3,19 @@ const express = require("express");
 const router = express.Router();
 
 // Import model(s)
-const { StudentClassroom, Classroom, sequelize } = require("../db/models");
+const {
+  Student,
+  StudentClassroom,
+  Classroom,
+  sequelize,
+  Supply,
+} = require("../db/models");
 const { Op } = require("sequelize");
 
 // List of classrooms
 router.get("/", async (req, res, next) => {
-  let errorResult = { errors: [], count: 0, pageCount: 0 };
-
+  //   let errorResult = { errors: [], count: 0, pageCount: 0 };
+  const where = req.where;
   // Phase 6B: Classroom Search Filters
   /*
         name filter:
@@ -34,7 +40,6 @@ router.get("/", async (req, res, next) => {
                     an error message of 'Student Limit should be a integer' to
                     errorResult.errors 
     */
-  const where = {};
 
   // Your code here
 
@@ -42,7 +47,16 @@ router.get("/", async (req, res, next) => {
     attributes: ["id", "name", "studentLimit"],
     where,
     order: [["name"]],
-    // Phase 1B: Order the Classroom search results
+    include: [
+      {
+        model: StudentClassroom,
+        attributes: [
+          [sequelize.fn("AVG", sequelize.col("grade")), "avgGrade"],
+          [sequelize.fn("COUNT", sequelize.col("studentId")), "numStudents"],
+        ],
+      },
+    ],
+    group: ["Classroom.id"],
   });
 
   res.json(classrooms);
@@ -52,8 +66,29 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   let classroom = await Classroom.findByPk(req.params.id, {
     attributes: ["id", "name", "studentLimit"],
+
     // Phase 7:
     // Include classroom supplies and order supplies by category then
+    include: [
+      {
+        model: Supply,
+        attributes: ["id", "name", "category", "handed"],
+      },
+      {
+        model: Student,
+        attributes: ["id", "firstName", "lastName", "leftHanded"],
+        through: {
+          model: StudentClassroom,
+          attributes: [],
+        },
+      },
+    ],
+    order: [
+      [{ model: Supply }, "category"],
+      [{ model: Supply }, "name"],
+      [{ model: Student }, "lastName"],
+      [{ model: Student }, "firstName"],
+    ],
     // name (both in ascending order)
     // Include students of the classroom and order students by lastName
     // then firstName (both in ascending order)
@@ -87,12 +122,13 @@ router.get("/:id", async (req, res, next) => {
       classroomId: req.params.id,
     },
   });
+  let avgGrade = studentClassroom.avgGrade;
   res.json({
     classroom,
     supplyCount,
     studentCount,
     overloaded,
-    studentClassroom,
+    avgGrade,
   });
 });
 

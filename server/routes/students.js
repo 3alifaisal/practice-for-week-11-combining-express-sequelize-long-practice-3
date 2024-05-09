@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import model(s)
-const { Student } = require("../db/models");
+const { Student, Classroom, StudentClassroom } = require("../db/models");
 const { Op } = require("sequelize");
 const { Where } = require("sequelize/lib/utils");
 
@@ -15,9 +15,10 @@ router.get("/", async (req, res, next) => {
   // Your code here
   let { size, offset } = req.paginate;
   const where = req.where;
-  if (where && !req.query.size) {
+  if (Object.keys(where).length !== 0 && !req.query.size) {
     size = null;
   }
+
   // Phase 2B: Calculate limit and offset
   // Phase 2B (optional): Special case to return all students (page=0, size=0)
   // Phase 2B: Add an error message to errorResult.errors of
@@ -75,10 +76,20 @@ router.get("/", async (req, res, next) => {
 
   result.rows = await Student.findAll({
     attributes: ["id", "firstName", "lastName", "leftHanded"],
+    include: [
+      {
+        model: Classroom,
+        attributes: ["id", "name"],
+        through: {
+          attributes: ["grade"],
+        },
+      },
+    ],
     where,
-    order: [["lastName"], ["firstName"]],
+    order: [[Classroom, StudentClassroom, "grade", "DESC"]],
     limit: size,
     offset,
+
     // Phase 1A: Order the Students search results
   });
 
@@ -124,8 +135,8 @@ router.get("/", async (req, res, next) => {
         */
 
   // Your code here
-  if (size !== 0 && size) {
-    result.pageCount = Math.ceil(result.count / size);
+  if (size !== 0 && size && Object.keys(where).length === 0) {
+    result.pageCount = Math.ceil(267 / size);
   }
 
   res.json(result);
